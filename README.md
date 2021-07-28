@@ -27,6 +27,32 @@ INCAS uses
 ...
 
 
-## Development
+## Dev system
 
-docker, etc.
+**Setup:** Start in project's root dir and create a `.env` file with the content shown below.
+```
+# .env file
+
+# In the container, this is the directory where the code is found
+# Example:
+APP_ROOT=/INCAS
+
+# the HOST directory containing directories to be mounted into containers
+# Example:
+VOL_DIR=/dev/INCAS
+```
+
+**Create** docker image. Please see [Dockerfiles/Dockerfile.incas-dev](https://github.com/cdeck3r/INCAS/blob/master/Dockerfiles/Dockerfile.incas-dev) for details.
+```bash
+docker-compose build incas-dev
+```
+
+**Spin up** the container and get a shell from the container
+```bash
+docker-compose up -d incas-dev
+docker exec -it incas-dev /bin/bash
+```
+
+## License
+
+Information provided in the [LICENSE](LICENSE) file.
