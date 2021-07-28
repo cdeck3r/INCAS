@@ -1,0 +1,59 @@
+#
+# Dev image for Raspberry Pi development on Desktop PC
+#
+
+FROM debian:buster-slim
+
+LABEL description="Dev system for INCAS"
+LABEL url="https://github.com/cdeck3r/INCAS"
+LABEL maintainer="cdeck3r"
+
+#
+# add other things if required
+#
+RUN apt-get update \
+    && apt-get install -yq --no-install-recommends \
+        wget \
+        bzip2 \
+        ca-certificates \
+        sudo \
+        locales \
+        fonts-liberation \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen
+    
+#
+# standard tools
+#
+RUN apt-get update && apt-get install -y \
+        git \
+        curl \
+        wget \
+        zip \
+        unzip \
+        kpartx \
+        iputils-ping \
+        sshpass \
+        python3 \
+        python3-pip \
+        shellcheck \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* 
+#
+# Install other tools
+#
+RUN cd /usr/local/bin \
+    && curl -L https://raw.githubusercontent.com/pgrange/bash_unit/master/install.sh | /bin/bash \
+    && pip3 install pytest-testinfra black isort doit \
+
+# shfmt version 3.2.0 binary release for linux amd64
+RUN cd /usr/local/bin \
+    && wget -c -O shfmt https://github.com/mvdan/sh/releases/download/v3.2.0/shfmt_v3.2.0_linux_amd64 \
+    && chmod 755 shfmt
+
+# install aliases 
+RUN echo 'alias doit="doit -f /INCAS/scripts/dodo.py"' >> ~/.bashrc \
+    && echo 'alias ll="ls -l"' >> ~/.bashrc
+
+CMD ["/bin/bash"]

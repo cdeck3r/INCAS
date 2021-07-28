@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  incas-dev:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: Dockerfile.incas-dev
+    container_name: incas-dev
+    image: incas-dev:latest
+    volumes:
+      - repo:/INCASRepo
+      - install:${APP_ROOT}/install
+      - src:${APP_ROOT}/src
+      - scripts:${APP_ROOT}/scripts
+    privileged: ${DEVSYS_PRIV:-false}
+    stdin_open: true
+    tty: true
+#
+# Volume definition
+# 
+volumes:
+  repo:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${VOL_DIR}/
+      o: bind
+  src:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${VOL_DIR}/src
+      o: bind
+  scripts:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${VOL_DIR}/scripts
+      o: bind
+  install:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${VOL_DIR}/install
+      o: bind
