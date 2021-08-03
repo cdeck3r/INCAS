@@ -9,6 +9,12 @@ generating social media content about lectures at the [HHZ](https://www.hhz.de/m
 
 INCAS is completely web-based. Point your browser to the URL of the INCAS server.
 
+## Design 
+
+The following UML usecase diagram provides an impression on INCAS's main services. The [docs](docs/) directory contains the full documentation.
+
+![INCAS usecase diagram]()
+
 
 ## Hardware 
 

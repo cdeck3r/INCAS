@@ -1,0 +1,23 @@
+@startuml
+skinparam monochrome true
+skinparam componentStyle uml2
+
+left to right direction
+
+actor Developer as dev
+actor SocialReporter as sr
+actor System as sys
+
+rectangle INCAS {
+  usecase (Configure networked\ncamera access) as config
+  usecase (Calibrate cameras) as calibrate
+  usecase (Take collection of pictures) as picture
+  usecase (Run maintenance\nprocedures) as util
+}
+
+dev --> config
+dev --> calibrate
+dev --> util
+sys --> util
+picture <-- sr
+@enduml
