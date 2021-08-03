@@ -6,7 +6,8 @@ left to right direction
 
 actor Developer as dev
 actor SocialReporter as sr
-actor System as sys
+' http://www.umlchannel.com/en/uml/item/24-use-case-actor-system-timer
+rectangle "System timer" as timer <<actor>>
 
 rectangle INCAS {
   usecase (Configure networked\ncamera access) as config
@@ -18,6 +19,6 @@ rectangle INCAS {
 dev --> config
 dev --> calibrate
 dev --> util
-sys --> util
+timer --> util
 picture <-- sr
 @enduml

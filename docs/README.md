@@ -6,9 +6,33 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 ![INCAS usecase diagram](http://www.plantuml.com/plantuml/png/KypCIyufJKajBSfHo2WfAIYsqjSlIYpNIyyioIXDAYrEBKhEpoj9pIlHIyxFrKzEIKtEDYxIz_HpTWpMpqtCpDDFoKykrYzDZWUQarYiLr9H0W00)
 
+
 ------------------------
 
-### Use Case 1: Configure networked camera access 
+### Use Case: Take collection of pictures
+
+**Primary Actor**: Social Reporter
+**Scope**: INCAS    
+**Summary**: Main INCAS use case. We illustrate how the Social Reporter interacts with INCAS.
+
+#### Main course of actions:
+
+1. Login into web-based UI
+1. Check how many cameras are online (INCAS health status)
+1. Start taking images for a given parameters duration and frequency
+1. Download images from UI
+
+**Preconditions:** INCAS and all wifi cameras are online
+
+
+#### Alternative extensions:
+
+3a. Trigger the start of taking images (params: duration and frequency) manually using the same web-based UI
+
+
+------------------------
+
+### Use Case: Configure networked camera access 
 
 **Primary Actor**: Developer    
 **Scope**: INCAS    
@@ -16,22 +40,21 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 #### Main course of actions:
 
-1. Configure SSID and password in `wpa_supplicant.conf`
 1. Run discovery script and write results in camera configuration file
 
 
-#### Alternative Extensions:
+#### Alternative extensions:
 
-2a. Write config file manually and copy onto the raspi
+1a. Write config file manually or take a ready-made one and copy onto the raspi
 
 
-**Preconditions:** Wifi cameras are setup and online in the same wifi network.
+**Preconditions:** Both, raspi and Wifi cameras, are setup and online in the same wifi network .
 
 **Postconditions:** INCAS raspi software can access the networked cameras via wifi.
 
 ------------------------
 
-### Use Case 2: Calibrate cameras
+### Use Case: Calibrate cameras
 
 **Primary Actor**: Developer   
 **Scope**: INCAS    
@@ -44,14 +67,27 @@ The following UML use case diagram provides an impression on INCAS's main servic
 1. Check whether cameras capture the scene satisfactory
 1. Repeat previous steps until satisfied
 
-#### Alternative Extensions:
-
-1a. ...
-3a. ...
-3b. ...
-
 
 **Preconditions:** INCAS software on the raspi can connect to all configured cameras online in the wifi.
 
 **Postconditions:** Developer is satisfied with camera orientation to taken images from scene.
+
+------------------------
+
+### Use Case 3: Run maintenance procedures
+
+**Primary Actor**: System timer
+**Scope**: INCAS    
+**Summary**: Determine and keep INCAS health status at regular time intervals
+
+#### Main course of actions:
+
+1. Housekeeping of image files
+1. logrotation
+1. Test cameras online
+1. Create INCAS health status report
+
+**Preconditions:** INCAS software on the raspi can connect to all configured cameras online in the wifi.
+
+**Postconditions:** INCAS is healthy
 

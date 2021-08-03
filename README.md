@@ -27,6 +27,13 @@ INCAS uses
 * [Headless Pi Zero W Wifi Setup (Windows)](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows)
 * Access a brand-new IPC-G22 on http://192.168.1.108, configure an admin password and import the [config file](). You may want to modify the config file to fit your network setup before the import.
 
+For the correct Raspi wifi setup, you may want to look at
+
+* https://www.raspberrypi.org/documentation/configuration/wireless/headless.md
+* https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
+
+The last link outline various methods to use the `wpa_passphrase` utility to generate an encrypted PSK.
+
 ## Software Setup
 
 ...
