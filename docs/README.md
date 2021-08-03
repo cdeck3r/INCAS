@@ -6,6 +6,7 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 ![INCAS usecase diagram](http://www.plantuml.com/plantuml/png/KypCIyufJKajBSfHo2WfAIYsqjSlIYpNIyyioIXDAYrEBKhEpoj9pIlHIyxFrKzEIKtEDYxIz_HpTWpMpqtCpDDFoKykrYzDZWUQarYiLr9H0W00)
 
+------------------------
 
 ### Use Case 1: Configure networked camera access 
 
@@ -28,6 +29,7 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 **Postconditions:** INCAS raspi software can access the networked cameras via wifi.
 
+------------------------
 
 ### Use Case 2: Calibrate cameras
 
