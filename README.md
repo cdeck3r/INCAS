@@ -13,8 +13,7 @@ INCAS is completely web-based. Point your browser to the URL of the INCAS server
 
 The following UML usecase diagram provides an impression on INCAS's main services. The [docs](docs/) directory contains the full documentation.
 
-![INCAS usecase diagram]()
-
+![INCAS usecase diagram](http://www.plantuml.com/plantuml/png/KypCIyufJKajBSfHo2WfAIYsqjSlIYpNIyyioIXDAYrEBKhEpoj9pIlHIyxFrKzEIKtEDYxIz_HpTWpMpqtCpDDFoKykrYzDZWUQarYiLr9H0W00)
 
 ## Hardware 
 
