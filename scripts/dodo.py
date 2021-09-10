@@ -51,7 +51,7 @@ def task_shellcheck():
 
     def shellcheck():
         files = " ".join(file_dep)
-        return "shellcheck -Calways " + files
+        return "shellcheck -x -Calways " + files
 
     return {'actions': [CmdAction(shellcheck)], 'file_dep': file_dep}
 

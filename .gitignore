@@ -3,7 +3,7 @@
 .env
 .doit.db.db
 log/*
-
+wpa_supplicant.conf
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/web,python

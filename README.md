@@ -36,8 +36,11 @@ The last link outline various methods to use the `wpa_passphrase` utility to gen
 
 ## Software Setup
 
-...
+This will install the software in `$HOME/incas` on the Raspi:
 
+```bash
+bash <(curl -s ... )
+```
 
 ## Dev system
 

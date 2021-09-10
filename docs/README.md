@@ -40,12 +40,14 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 #### Main course of actions:
 
-1. Run discovery script and write results in camera configuration file
+1. Scan local network for IP cameras
+1. Write found cameras (name and IPs) in the configuration file
 
 
 #### Alternative extensions:
 
-1a. Write config file manually or take a ready-made one and copy onto the raspi
+1a. Attempt to login into camera's web-based interface to verfiy access
+2a. Write config file manually or take a ready-made one and copy onto the raspi
 
 
 **Preconditions:** Both, raspi and Wifi cameras, are setup and online in the same wifi network .
@@ -64,7 +66,7 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 1. Align the cameras' orientation
 1. Trigger a single shot picture from all cameras
-1. Check whether cameras capture the scene satisfactory
+1. Review whether cameras capture the scene satisfactory
 1. Repeat previous steps until satisfied
 
 
@@ -76,14 +78,14 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 ### Use Case 3: Run maintenance procedures
 
-**Primary Actor**: System timer
+**Primary Actor**: System timer   
 **Scope**: INCAS    
-**Summary**: Determine and keep INCAS health status at regular time intervals
+**Summary**: Retain INCAS health status at regular time intervals
 
 #### Main course of actions:
 
 1. Housekeeping of image files
-1. logrotation
+1. Logrotation
 1. Test cameras online
 1. Create INCAS health status report
 
