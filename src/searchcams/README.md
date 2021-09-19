@@ -32,4 +32,4 @@ Usage: ...
 
 Finally, [writeconfig.sh](writeconfig.sh) adds the discovered cameras to the config file in the INCAS root, e.g. `/home/pi/incas`. 
 
-The script takes the result file from `searchcams.sh` or `discovercams.sh` as input. Config details are specified in [docs/README.md](../../docs/README.md)
+The script takes the result file from `searchcams.sh` or `discovercams.sh` as input. Config details are specified in [docs/README.md](../../docs/README.md#config-file-dependencies-and-specification)

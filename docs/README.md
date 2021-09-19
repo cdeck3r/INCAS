@@ -4,7 +4,7 @@
 
 - [Directory Structure](#directory-structure)
 - [Usecase Design](#usecase-design)
-- [Dependencies](#dependencies)
+- [Dependencies and Specification](#config-file-dependencies-and-specification)
 
 
 ## Directory Structure
@@ -22,7 +22,7 @@ incas/src/
 |-- config.yml
 ```
 
-Common information is shared within INCAS's configuration file `config.yml`. Config details are found in section [Config File Dependencies]().
+Common information is shared within INCAS's configuration file `config.yml`. Config details are found in section [Config File Dependencies](#config-file-dependencies-and-specification).
 
 ## Usecase Design
 
