@@ -34,7 +34,7 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 The usecase implementations run independently from each other. However, they share some information they commonly rely on. The following diagram displays the usecases' dependencies to the config file. The config file format is defined in [src/searchcams](../src/searchcams).
 
-![Config file dependencies]()
+![Config file dependencies](http://www.plantuml.com/plantuml/png/KypCIyufJKbLo2WfAIYsqjSlIYpNIyyioIXDAYrEBKhEpoj9pIlHIyxFrKzEIKtEDYxIz_HpTWpMpqtCpDDFoKykra_EAOu7galBJDShgIW10000)
 
 ------------------------
 
