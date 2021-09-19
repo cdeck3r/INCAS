@@ -30,29 +30,6 @@ In a practical setting, one may want to run `searchcams.sh` as a cronjob and red
 Usage: ...
 
 
-3. Finally, [writeconfig.sh]() adds the cameras to the config file in the INCAS root, e.g. `/home/pi/incas`.
+Finally, [writeconfig.sh](writeconfig.sh) adds the discovered cameras to the config file in the INCAS root, e.g. `/home/pi/incas`. 
 
-The script takes the result file from `searchcams.sh` or `discovercams.sh` as input.
-
-## Config file
-
-The config file is a yaml file in INCAS root directory: `/home/pi/incas/config.yml`
-
-Definition by example format:
-
-```
-www-images: "/home/pi/incas/www-images"
-log_dir: "/home/pi/incas/log"
-
-# found by network scan or manually entered
-cameras:
-  incas_user: "incas"
-  incas_pass: "test123"
-  
-  1:
-    ip: "192.168.1.1"
-    name: "cam1"
-  2:
-    ip: "192.168.1.2"
-    name: "cam2"
-```
+The script takes the result file from `searchcams.sh` or `discovercams.sh` as input. Config details are specified in [docs/README.md](../../docs/README.md)

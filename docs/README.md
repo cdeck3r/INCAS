@@ -1,11 +1,18 @@
 # Documentation
 
+### Table of Contents
+
+- [Directory Structure](#directory-structure)
+- [Usecase Design](#usecase-design)
+- [Dependencies](#dependencies)
+
+
 ## Directory Structure
 
-INCAS consists of set of scripts organized along the following directory structure. Scripts in each directory cover a specific function or usecase.
+INCAS consists of set of scripts organized along the following directory structure. Scripts in each directory cover a specific function or usecase. They largely run independently from each other.
 
 ```
-src/
+incas/src/
 |-- calibrate/
 |-- housekeeping/
 |-- include/
@@ -15,7 +22,7 @@ src/
 |-- config.yml
 ```
 
-Common information is shared within INCAS's configuration file `config.yml`. Details are found in [src/searchcams](../src/searchcams).
+Common information is shared within INCAS's configuration file `config.yml`. Config details are found in section [Config File Dependencies]().
 
 ## Usecase Design
 
@@ -30,11 +37,36 @@ The following UML use case diagram provides an impression on INCAS's main servic
 - [Use Case: Calibrate cameras](#uc_calibrate_cameras)
 - [Use Case: Run maintenance procedures](#uc_run_maintenance_procedures)
 
-## Dependencies
+## Config File Dependencies and Specification
 
-The usecase implementations run independently from each other. However, they share some information they commonly rely on. The following diagram displays the usecases' dependencies to the config file. The config file format is defined in [src/searchcams](../src/searchcams).
+The usecase implementations run independently from each other. However, they share some information they commonly rely on. The following diagram displays the usecases' dependencies to the config file. The config file format is defined below.
 
 ![Config file dependencies](http://www.plantuml.com/plantuml/png/KypCIyufJKbLo2WfAIYsqjSlIYpNIyyioIXDAYrEBKhEpoj9pIlHIyxFrKzEIKtEDYxIz_HpTWpMpqtCpDDFoKykra_EAOu7galBJDShgIW10000)
+
+
+***Config file***
+
+The config file is a yaml file in INCAS root directory: `/home/pi/incas/config.yml`
+
+Definition by example format:
+
+```
+www-images: "/home/pi/incas/www-images"
+log_dir: "/home/pi/incas/log"
+
+# found by network scan or manually entered
+cameras:
+  incas_user: "incas"
+  incas_pass: "test123"
+  
+  1:
+    ip: "192.168.1.1"
+    name: "cam1"
+  2:
+    ip: "192.168.1.2"
+    name: "cam2"
+```
+
 
 ------------------------
 
