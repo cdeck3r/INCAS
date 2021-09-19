@@ -10,15 +10,21 @@ class Config <<File>> {
   +path:String = <INCAS root>
 }
 
+class install <<Script>> {
+  +path: String = install/install_config.sh 
+}
 
-actor User
+hide empty methods
+
+actor Developer
 usecase (Configure networked\ncamera access) as camconf
 usecase (Calibrate cameras) as calibrate
 usecase (Take collection of pictures) as picture
 
-User ..> Config: <<create>>
-camconf ..> Config: <<create>>
+install ..> Config: <<create>>
+Developer ..> Config: <<create>>
+camconf ..> Config: <<modify>>
 
-calibrate ..> Config
-picture ..> Config
+calibrate ..> Config: <<use>>
+picture ..> Config: <<use>>
 @enduml
