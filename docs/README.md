@@ -70,6 +70,8 @@ cameras:
 
 ------------------------
 
+## Usecase Descriptions
+
 <a name="uc_take_collection_of_pictures"></a>
 ### Use Case: Take collection of pictures
 
