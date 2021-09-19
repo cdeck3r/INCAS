@@ -6,7 +6,7 @@ INCAS consists of set of scripts organized along the following directory structu
 
 ```
 src/
-|-- gallery_shell/
+|-- calibrate/
 |-- housekeeping/
 |-- include/
 |-- script-server/
