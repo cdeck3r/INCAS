@@ -1,0 +1,24 @@
+@startuml
+skinparam monochrome true
+skinparam componentStyle uml2
+
+allow_mixing
+
+left to right direction
+
+class Config <<File>> {
+  +path:String = <INCAS root>
+}
+
+
+actor User
+usecase (Configure networked\ncamera access) as camconf
+usecase (Calibrate cameras) as calibrate
+usecase (Take collection of pictures) as picture
+
+User ..> Config: <<create>>
+camconf ..> Config: <<create>>
+
+calibrate ..> Config
+picture ..> Config
+@enduml

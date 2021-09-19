@@ -1,14 +1,44 @@
 # Documentation
 
-## Use case Design
+## Directory Structure
+
+INCAS consists of set of scripts organized along the following directory structure. Scripts in each directory cover a specific function or usecase.
+
+```
+src/
+|-- gallery_shell/
+|-- housekeeping/
+|-- include/
+|-- script-server/
+|-- searchcams/
+|-- takeimg/
+|-- config.yml
+```
+
+Common information is shared within INCAS's configuration file `config.yml`. Details are found in [src/searchcams](../src/searchcams).
+
+## Usecase Design
 
 The following UML use case diagram provides an impression on INCAS's main services.
 
 ![INCAS usecase diagram](http://www.plantuml.com/plantuml/png/KypCIyufJKajBSfHo2WfAIYsqjSlIYpNIyyioIXDAYrEBKhEpoj9pIlHIyxFrKzEIKtEDYxIz_HpTWpMpqtCpDDFoKykrYzDZWUQarYiLr9H0W00)
 
+### Quick Links
+
+- [Use Case: Take collection of pictures](#uc_take_collection_of_pictures)
+- [Use Case: Configure networked camera access](#uc_take_configure_networked_camera-access)
+- [Use Case: Calibrate cameras](#uc_calibrate_cameras)
+- [Use Case: Run maintenance procedures](#uc_run_maintenance_procedures)
+
+## Dependencies
+
+The usecase implementations run independently from each other. However, they share some information they commonly rely on. The following diagram displays the usecases' dependencies to the config file. The config file format is defined in [src/searchcams](../src/searchcams).
+
+![Config file dependencies]()
 
 ------------------------
 
+<a name="uc_take_collection_of_pictures"></a>
 ### Use Case: Take collection of pictures
 
 **Primary Actor**: Social Reporter
@@ -30,8 +60,36 @@ The following UML use case diagram provides an impression on INCAS's main servic
 3a. Trigger the start of taking images (params: duration and frequency) manually using the same web-based UI
 
 
+### Implementation Notes
+
+**web-based UI**
+
+The web-based UI uses [script-server](https://github.com/bugy/script-server). This approach enables one to run scripts via web browser and review their output. The `script-server` is accessed through a `nginx` reverse proxy.
+
+**download images**
+
+`nginx` is configured with directory index enabled, i.e. the user sees a directory listing containing the images. Load a single image by clicking on the image. Download all images by either using a FireFox extension or a `wget` request. 
+
+**cameras online**
+
+Ping the camers' ip addresses found in the config file. The config file is a yaml file in INCAS root directory.
+
+**repeated image taking**
+
+There should be always an stop event, e.g. a number of images taken or a max. duration.
+
+Params:
+
+* frequency: better an interval when to take an image, e.g. every 30s
+* duration: time interval to stop taking images when reached, e.g. 2h
+* maxtime: datetime when to stop taking images, e.g. 2021-09-10 14:00:00
+* maximgs: max. number of images taken until stop
+
+The only param to modify is _frequency_. All others are calculated based on frequency.
+
 ------------------------
 
+<a name="uc_take_configure_networked_camera-access"></a>
 ### Use Case: Configure networked camera access 
 
 **Primary Actor**: Developer    
@@ -46,16 +104,23 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 #### Alternative extensions:
 
-1a. Attempt to login into camera's web-based interface to verfiy access
+1a. Attempt to login into camera's web-based interface to verfiy access    
 2a. Write config file manually or take a ready-made one and copy onto the raspi
 
 
-**Preconditions:** Both, raspi and Wifi cameras, are setup and online in the same wifi network .
+**Preconditions:** Both, raspi and Wifi cameras, are setup and online in the same wifi network.
 
 **Postconditions:** INCAS raspi software can access the networked cameras via wifi.
 
+
+### Implementation Notes
+
+Details are found in [src/searchcams](../src/searchcams).
+
+
 ------------------------
 
+<a name="uc_calibrate_cameras"></a>
 ### Use Case: Calibrate cameras
 
 **Primary Actor**: Developer   
@@ -74,9 +139,14 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 **Postconditions:** Developer is satisfied with camera orientation to taken images from scene.
 
+### Implementation Notes
+
+We use [gallery_shell](https://github.com/Cyclenerd/gallery_shell) to display images in a quick image review. Details are found in [src/calibrate](../src/calibrate).
+
 ------------------------
 
-### Use Case 3: Run maintenance procedures
+<a name="uc_run_maintenance_procedures"></a>
+### Use Case: Run maintenance procedures
 
 **Primary Actor**: System timer   
 **Scope**: INCAS    
@@ -93,3 +163,9 @@ The following UML use case diagram provides an impression on INCAS's main servic
 
 **Postconditions:** INCAS is healthy
 
+
+### Implementation Notes
+
+**logrotation**
+
+The logfile rotation is defined in [`logrotate.conf`](../install/logrotate.conf). At the end of the installation routine logrotation is added as cronjob in the [`install_logrotate.sh`](../install/install_logrotate.sh).
