@@ -4,6 +4,8 @@
 .doit.db.db
 log/*
 wpa_supplicant.conf
+devConfigFile.backup
+src/config.yml
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/web,python

@@ -2,8 +2,11 @@
 set -e -u
 
 #
-# Install gallery_shell - Bash Script to generate static responsive image web galleries. 
+# Install gallery_shell
+# Bash Script to generate static responsive image web galleries.
 # https://github.com/Cyclenerd/gallery_shell
+#
+# gallery_shell is required for the calibrate usecase.
 #
 # Author: cdeck3r
 #
@@ -29,7 +32,8 @@ source "${SCRIPT_DIR}/common.sh"
 : "${INCAS_DIR}"
 
 # variables
-GALLERY_SH_DIR="${INCAS_DIR}/gallery_shell"
+# gallery_shell is required by the calibrate usecase
+GALLERY_SH_DIR="${INCAS_DIR}/calibrate"
 
 #####################################################
 # Include Helper functions
@@ -46,6 +50,9 @@ check_user || {
     echo "User mismatch. Script must run as user: ${USER}"
     exit 1
 }
+
+# ensure directory exists
+mkdir -p "${GALLERY_SH_DIR}"
 
 # install / update system software
 # nginx

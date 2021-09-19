@@ -25,22 +25,33 @@ INCAS uses
 **Initial setup**
 
 * [Headless Pi Zero W Wifi Setup (Windows)](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows)
-* Access a brand-new IPC-G22 on http://192.168.1.108, configure an admin password and import the [config file](). You may want to modify the config file to fit your network setup before the import.
+* Access a brand-new IPC-G22 on http://192.168.1.108, configure an admin password and import the [default config file](install/defaultConfigFile.backup). It does not contain any network setup. You may want to configure your network settings.
+* Configure `incas` user to take snapshots
+    * Create group `snapshot` with permissions 
+        * Live
+        * Event
+    * Create user `incas` and assign to group `snapshot`
 
 For the correct Raspi wifi setup, you may want to look at
 
 * https://www.raspberrypi.org/documentation/configuration/wireless/headless.md
 * https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
 
-The last link outline various methods to use the `wpa_passphrase` utility to generate an encrypted PSK.
+The last link outline various methods to use the `wpa_passphrase` utility to generate an encrypted PSK. The [dev system](#dev-system) contains the `wpa_passphrase` utility.
 
 ## Software Setup
 
-This will install the software in `$HOME/incas` on the Raspi:
+On the Raspi, login as regular user (i.e. not root) and run the command below. It will install the software in `$HOME/incas` on the Raspi:
 
 ```bash
-bash <(curl -s ... )
+bash <(curl -s https://raw.githubusercontent.com/cdeck3r/INCAS/main/install/install.sh)
 ```
+
+**Note:** During the initial setup, if no `$HOME/incas/config.yml` was found, the script generates a random password for the `incas` user submitted to the IP camera when taking snapshots. You may want to take the generated password from the `config.yml` and set it as password for the `incas` user in the [hardware setup](#hardware).
+
+If the `config.yml` exists, the password remains untouched.
+
+Additionally, one may run [`install_config.sh`](install/install_config.sh) separately on the Raspi CLI and provide a password as argument. The script will update the password in the `config.yml`.
 
 ## Dev system
 
@@ -54,10 +65,10 @@ APP_ROOT=/INCAS
 
 # the HOST directory containing directories to be mounted into containers
 # Example:
-VOL_DIR=/dev/INCAS
+VOL_DIR=/home/myusername/INCAS
 ```
 
-**Create** docker image. Please see [Dockerfiles/Dockerfile.incas-dev](https://github.com/cdeck3r/INCAS/blob/master/Dockerfiles/Dockerfile.incas-dev) for details.
+**Create** docker image. Please see [Dockerfiles/Dockerfile.incas-dev](Dockerfiles/Dockerfile.incas-dev) for details.
 ```bash
 docker-compose build incas-dev
 ```

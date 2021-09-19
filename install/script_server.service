@@ -2,7 +2,7 @@
 Description=script-server UI for the scanner apparatus
 
 [Service]
-ExecStart=python3 /home/pi/script-server/launcher.py --log-folder /home/pi/log
+ExecStart=python3 /home/pi/incas/script-server/launcher.py --log-folder /home/pi/incas/log
 Restart=always
 RestartSec=60
 
