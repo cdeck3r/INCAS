@@ -1,0 +1,7 @@
+{
+  "name": "Take a snapshot",
+  "script_path": "snapshot.sh",
+  "working_directory": "scripts",
+  "description": "All configured cameras take a snapshot. Download images from the directory shared on the web by the INCAS Raspberry Pi.",
+  "parameters": []
+}
