@@ -16,9 +16,9 @@ rectangle INCAS {
   usecase (Run maintenance\nprocedures) as util
 }
 
-dev --> config
-dev --> calibrate
-dev --> util
-timer --> util
-picture <-- sr
+dev -- config
+dev -- calibrate
+dev -- util
+timer -- util
+picture -- sr
 @enduml
