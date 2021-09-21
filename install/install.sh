@@ -139,13 +139,19 @@ chmod -R u+x /tmp/INCAS-main/install/*.sh
 /tmp/INCAS-main/install/install_nginx.sh
 /tmp/INCAS-main/install/install_script_server.sh
 /tmp/INCAS-main/install/install_gallery_shell.sh
+/tmp/INCAS-main/install/install_yq.sh
 /tmp/INCAS-main/install/install_config.sh
 
 # cp INCAS source files
 cp -R /tmp/INCAS-main/src/* "${INCAS_DIR}"
 # adapt the executable flags
 chmod -R u+x "${INCAS_DIR}"/*.sh
-# we have modified script_server config -> restart the service
+
+#
+# Post-install actions
+#
+# we have modified script_server -> configure and restart the service
+/tmp/INCAS-main/install/configure_script_server.sh
 restart_script_server
 
 # finally, install logrotation cron jobs

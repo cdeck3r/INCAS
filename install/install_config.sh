@@ -41,6 +41,11 @@ NGINX_CONF="/etc/nginx/sites-available/default"
 # Include Helper functions
 #####################################################
 
+command -v "yq" >/dev/null 2>&1 || {
+    echo >&2 "I require yq but it's not installed.  Abort."
+    exit 1
+}
+
 # source: https://www.howtogeek.com/howto/30184/10-ways-to-generate-a-random-password-from-the-command-line/
 randpw() {
     local len="${1:-16}"
