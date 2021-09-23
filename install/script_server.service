@@ -1,5 +1,5 @@
 [Unit]
-Description=script-server UI for the scanner apparatus
+Description=script-server UI for INCAS
 
 [Service]
 ExecStart=python3 /home/pi/incas/script-server/launcher.py --log-folder /home/pi/incas/log
