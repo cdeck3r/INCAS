@@ -164,7 +164,7 @@ cli_log "Run install_config.sh"
 cli_log "Copy INCAS source files"
 cp -R /tmp/INCAS-main/src/* "${INCAS_DIR}"
 # adapt the executable flags
-chmod -R u+x "${INCAS_DIR}"/*.sh
+find "${INCAS_DIR}" -type f -name "*.sh" -print0 | xargs -0 -I {} chmod u+x {}
 
 #
 cli_log "Post-install actions"

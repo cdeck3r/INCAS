@@ -64,6 +64,6 @@ check_user || {
     echo "ERROR: file does not exist: ${LOGGING_CONF}"
     exit 2
 }
-add_update_conf ".handlers.file.filename" "${LOG_DIR}/script-server.log"
+add_update_conf "handlers.file.filename" "${LOG_DIR}/script-server.log"
 
 exit 0
