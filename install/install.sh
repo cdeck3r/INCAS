@@ -130,10 +130,10 @@ cli_log() {
 #
 # Initialize raspi
 #
-cli_log "Set hostname"
-set_hostname "{MY_HOSTNAME}"
+cli_log "Set hostname: ${MY_HOSTNAME}"
+set_hostname "${MY_HOSTNAME}"
 
-cli_log "Change timezone to ${MY_TZ}"
+cli_log "Change timezone: ${MY_TZ}"
 set_timezone "${MY_TZ}"
 
 #
