@@ -102,6 +102,14 @@ restart_script_server() {
     }
 }
 
+cli_log() {
+    local msg=$1
+    
+    echo "---------------------------"
+    echo "${msg}"
+    echo "---------------------------"
+}
+
 #####################################################
 # Main program
 #####################################################
@@ -109,14 +117,17 @@ restart_script_server() {
 #
 # Initialize raspi
 #
+cli_log "Set hostname"
 set_hostname "incas"
 
 #
 # INCAS src
 #
+cli_log "Prepare install"
 install_cleanup
 mkdir -p "${INCAS_DIR}"
 
+cli_log "Download install files"
 # Download repo and extract src and install directory into tmp directory
 # filenames are hardcoded by convention
 curl -L "${REPO_ZIP}" --output /tmp/incas.zip
@@ -124,40 +135,49 @@ curl -L "${REPO_ZIP}" --output /tmp/incas.zip
     echo "File does not exist: /tmp/incas.zip"
     exit 2
 }
+cli_log "Unzip install files"
 unzip /tmp/incas.zip 'INCAS-main/src/*' -d /tmp
 unzip /tmp/incas.zip 'INCAS-main/install/*' -d /tmp
 
+cli_log "Remove existing directories"
 # Prepare; rm existing directories before copy new ones
 # Note: INCAS_DIR/config.yml remains as well as the log directory
 find "/tmp/INCAS-main/src" -mindepth 1 -type d -print0 |
     xargs -0 -I {} basename {} |
     xargs -I {} rm -rf "${INCAS_DIR}/{}"
 
-# Run install scripts
+cli_log "Run install scripts"
 chmod -R u+x /tmp/INCAS-main/install/*.sh
+cli_log "Run install_avahi.sh"
 /tmp/INCAS-main/install/install_avahi.sh
+cli_log "Run install_nginx.sh"
 /tmp/INCAS-main/install/install_nginx.sh
+cli_log "Run install_script_server.sh"
 /tmp/INCAS-main/install/install_script_server.sh
+cli_log "Run install_gallery_shell.sh"
 /tmp/INCAS-main/install/install_gallery_shell.sh
+cli_log "Run install_yq.sh"
 /tmp/INCAS-main/install/install_yq.sh
+cli_log "Run install_config.sh"
 /tmp/INCAS-main/install/install_config.sh
 
-# cp INCAS source files
+cli_log "Copy INCAS source files"
 cp -R /tmp/INCAS-main/src/* "${INCAS_DIR}"
 # adapt the executable flags
 chmod -R u+x "${INCAS_DIR}"/*.sh
 
 #
-# Post-install actions
+cli_log "Post-install actions"
 #
 # we have modified script_server -> configure and restart the service
 /tmp/INCAS-main/install/configure_script_server.sh
 restart_script_server
 
-# finally, install logrotation cron jobs
+cli_log "Install logrotation cron jobs"
 /tmp/INCAS-main/install/install_logrotate.sh
 
 # finish
+cli_log "Install cleanup"
 install_cleanup
 
 exit 0

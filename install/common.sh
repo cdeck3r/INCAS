@@ -20,6 +20,7 @@ bailout_if_root() {
         echo "User is root. Please run this script as regular user."
         exit 1
     }
+    return 0
 }
 
 check_user() {
