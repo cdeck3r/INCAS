@@ -23,8 +23,10 @@ cd "$SCRIPT_DIR" || exit
 SCRIPT_NAME=$0
 
 # variables
-REPO_ZIP="https://github.com/cdeck3r/INCAS/archive/main.zip"
+MY_HOSTNAME="incas"
+MY_TZ="Europe/Berlin" # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 
+REPO_ZIP="https://github.com/cdeck3r/INCAS/archive/main.zip"
 USER="$(id --user --name)"
 USER_HOME="/home/${USER}"
 INCAS_DIR="${USER_HOME}/incas"
@@ -91,6 +93,17 @@ fi
 EOF
 }
 
+# Set the system's timezone
+# The new one is provided as parameter
+set_timezone() {
+    local new_tz=$1
+
+    sudo -s -- <<EOF 
+timedatectl set-timezone "${new_tz}"
+EOF
+
+}
+
 restart_script_server() {
     # required to run systemctl --user
     XDG_RUNTIME_DIR=/run/user/$(id -u)
@@ -118,7 +131,10 @@ cli_log() {
 # Initialize raspi
 #
 cli_log "Set hostname"
-set_hostname "incas"
+set_hostname "{MY_HOSTNAME}"
+
+cli_log "Change timezone to ${MY_TZ}"
+set_timezone "${MY_TZ}"
 
 #
 # INCAS src
