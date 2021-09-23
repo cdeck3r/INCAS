@@ -50,6 +50,14 @@ check_user || {
     exit 1
 }
 
+# install dependencies
+sudo -s -- <<EOF
+apt-get update
+apt-get install -y python3-pip 
+pip3 install pyyaml 
+pip3 install tornado
+EOF
+
 #
 # install script-server UI; run as ${USER}
 # 1. Download and cp script-server in "${SCRIPT_SERVER_USER_DIR}"
@@ -96,8 +104,13 @@ STATE=$(systemctl --user --no-pager --no-legend is-active "${SERVICE_UNIT_FILE}"
 if [ "${STATE}" != "active" ]; then
     echo "Service not active: ${SERVICE_UNIT_FILE}"
     exit 2
+elif [ "${STATE}" == "active" ]; then
+    echo "Service active: ${SERVICE_UNIT_FILE}"
+else
+    echo "Service ${SERVICE_UNIT_FILE} in unexpected state: ${STATE}"
+    exit 2
 fi
-
+    
 # create log directory
 mkdir -p "${LOG_DIR}"
 mkdir -p "${LOG_DIR}/processes_log"
