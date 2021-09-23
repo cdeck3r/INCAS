@@ -110,6 +110,7 @@ for ((i = 0; i < "${#camera_ips[@]}"; i++)); do
     # filename format: cam<n>_yyyymmdd_hhmmss
     IMG_NAME="Cam${n}_$(date '+%Y%m%d_%H%M%S')"
     # issue HTTP request to take snapshot
+    log_echo_file "INFO" "Take a snapshot from Cam${n}: ${ip}"
     curl -s --user "${USER}:${PASS}" --digest "http://${ip}/cgi-bin/snapshot.cgi" -o "${IMG_DIR}/${IMG_NAME}.jpg"
     CURL_RET=$?
     # error reporting
