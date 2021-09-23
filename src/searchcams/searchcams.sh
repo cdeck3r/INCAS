@@ -34,7 +34,8 @@ MYIP=${1-}
 MYNETMASK=${2-}
 CONF="${SCRIPT_DIR}/../config.yml"
 # TODO: use yq to parse config.yml
-LOG_DIR=$(grep log_dir "${CONF}" | tr -d':' -f2 | xargs)
+#LOG_DIR=$(grep log_dir "${CONF}" | tr -d':' -f2 | xargs)
+LOG_DIR=$(yq e '.log_dir' "${CONF}")
 LOG_FILE="${LOG_DIR}/${SCRIPT_NAME_WO_EXT}.log"
 
 #####################################################
@@ -105,6 +106,11 @@ calcNetworkIPs() {
     local netmask=$2
     #local network broadcast
     local firstIP lastIP
+
+    [[ "${netmask}" == "255.255.255.255" ]] && {
+        echo "${ip}" "${ip}"
+        return 0
+    }
 
     # Source: https://stackoverflow.com/a/43878141
     IFS=. read -r i1 i2 i3 i4 <<<"$ip"
