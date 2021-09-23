@@ -116,7 +116,7 @@ add_update_conf "cameras.incas_user" "${INCAS_USER}"
 #   - do nothing ... remain password as it is
 
 if [[ ! -z "${INCAS_PASS}" ]]; then
-    add_update_conf "incas_pass" "${INCAS_PASS}"
+    add_update_conf "cameras.incas_pass" "${INCAS_PASS}"
 elif ! key_in_conf "incas_pass"; then
     # generate pass
     INCAS_PASS="$(randpw "")"
