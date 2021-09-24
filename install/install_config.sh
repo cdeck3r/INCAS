@@ -63,10 +63,14 @@ key_in_conf() {
     local key=$1
     local haskey res
 
-    haskey=". | has(\"${key}\")"
-    res=$(yq e "${haskey}" "${CONF}")
-    #echo "Res: ${res}"
-    [[ "${res}" == "true" ]] && { return 0; }
+    haskey=".[] | has(\"${key}\")"
+    mapfile -t yq_res < <(yq e "${haskey}" "${CONF}")
+    
+    # we return successfull, if we find one true result
+    for res in "${yq_res[@]}"; do
+        #echo "Res: ${res}"
+        [[ "${res}" == "true" ]] && { return 0; }
+    done
     return 1
 }
 
