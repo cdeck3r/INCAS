@@ -110,7 +110,7 @@ else
     echo "Service ${SERVICE_UNIT_FILE} in unexpected state: ${STATE}"
     exit 2
 fi
-    
+
 # create log directory
 mkdir -p "${LOG_DIR}"
 mkdir -p "${LOG_DIR}/processes_log"

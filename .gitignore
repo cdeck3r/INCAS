@@ -2,6 +2,7 @@
 ### project-specific files ###
 .env
 .doit.db.db
+incas.ini
 log/*
 wpa_supplicant.conf
 devConfigFile.backup

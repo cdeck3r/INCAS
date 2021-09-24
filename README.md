@@ -53,6 +53,27 @@ If the `config.yml` exists, the password remains untouched.
 
 Additionally, one may run [`install_config.sh`](install/install_config.sh) separately on the Raspi CLI and provide a password as argument. The script will update the password in the `config.yml`.
 
+
+The raspi may report its IP address to an external webserver. This is helpful, if one expects a new IP lease in a DHCP controlled network. The [`install_callingHome.sh`](install/install_callingHome.sh) script installs a cronjob which issues an hourly http request. A developer may check the webserver's access log for the IP address. 
+
+The target webserver is expected to be defined in `/boot/incas.ini`. Format is by example:
+
+```
+#
+# incas.ini
+#
+# This is a key/value file containing non-public information. 
+# It is separated from the incas installation and directory 
+# structure to avoid an unintended repo commit.
+#
+# Default: /boot/incas.ini
+# 
+
+# Raspi discovery tracker
+TRACKER_NWEB="<insert URL here>"
+
+```
+
 ## Dev system
 
 **Setup:** Start in project's root dir and create a `.env` file with the content shown below.

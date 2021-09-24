@@ -98,7 +98,7 @@ EOF
 set_timezone() {
     local new_tz=$1
 
-    sudo -s -- <<EOF 
+    sudo -s -- <<EOF
 timedatectl set-timezone "${new_tz}"
 EOF
 
@@ -117,7 +117,7 @@ restart_script_server() {
 
 cli_log() {
     local msg=$1
-    
+
     echo "---------------------------"
     echo "${msg}"
     echo "---------------------------"
@@ -176,6 +176,8 @@ cli_log "Run install_yq.sh"
 /tmp/INCAS-main/install/install_yq.sh
 cli_log "Run install_config.sh"
 /tmp/INCAS-main/install/install_config.sh
+cli_log "Run install_callingHome.sh"
+/tmp/INCAS-main/install/install_callingHome.sh
 
 cli_log "Copy INCAS source files"
 cp -R /tmp/INCAS-main/src/* "${INCAS_DIR}"

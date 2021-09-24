@@ -65,7 +65,7 @@ key_in_conf() {
 
     haskey=".[] | has(\"${key}\")"
     mapfile -t yq_res < <(yq e "${haskey}" "${CONF}")
-    
+
     # we return successfull, if we find one true result
     for res in "${yq_res[@]}"; do
         #echo "Res: ${res}"

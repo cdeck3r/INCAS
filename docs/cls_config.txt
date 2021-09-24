@@ -8,6 +8,7 @@ left to right direction
 
 class Config <<File>> {
   +path:String = <INCAS root>
+  +name:String = config.yml
 }
 
 class install <<Script>> {
