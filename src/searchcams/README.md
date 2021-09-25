@@ -21,15 +21,18 @@ Potential IP camera found: <ip address>
 In a practical setting, one may want to run `searchcams.sh` as a cronjob and redirect the output into a separate result file for later processing. Example:
 
 ```
-./searchcams.sh > ipcameras.log
+./searchcams.sh > <logdir>/ipcameras.log
 ```
 
 
 2. [discovercams.sh](discovercams.sh) discovers IP cameras via `avahi`.
 
-Usage: ...
-
+```
+./discovercams.sh > <logdir>/ipcameras.log
+```
 
 Finally, [writeconfig.sh](writeconfig.sh) adds the discovered cameras to the config file in the INCAS root, e.g. `/home/pi/incas`. 
 
-The script takes the result file from `searchcams.sh` or `discovercams.sh` as input. Config details are specified in [docs/README.md](../../docs/README.md#config-file-dependencies-and-specification)
+Usage: `./writeconfig.sh`
+
+Just call the script. It takes the result file from `searchcams.sh` or `discovercams.sh` as input. Config details are specified in [docs/README.md](../../docs/README.md#config-file-dependencies-and-specification)
