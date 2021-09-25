@@ -4,6 +4,7 @@ This project collects and stores images from multiple ONVIF compatible IP camera
 These images serve as input to the Social Reporter - an AI based image selection and composition system for 
 generating social media content about lectures at the [HHZ](https://www.hhz.de/master/digital-business-engineering/).
 
+The project is under development. See current activities on the its [Trello board](https://trello.com/b/AOATCM0o)
 
 ## Usage
 
