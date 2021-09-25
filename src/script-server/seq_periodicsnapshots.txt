@@ -5,9 +5,11 @@ skinparam componentStyle uml2
 boundary UI
 control "snapshot_xsecs_\nuntil_ktimes.sh" as scriptUI
 UI -> scriptUI : execute
-scriptUI -> at : ... -q s -t now
+scriptUI -> at : check for running jobs:\n atq -q s ...
+return job list
+scriptUI -> at : submit job:\n at -q s -t now ...
 
-at -> watch : ... -e -t -n x 
+at -> watch : start:\n watch -e -t -n x ...
 
 loop every x seconds
   control ktimes.sh
