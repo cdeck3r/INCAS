@@ -1,0 +1,7 @@
+{
+  "name": "Status check",
+  "script_path": "status.sh",
+  "working_directory": "scripts",
+  "description": "Performs various checks and determines the system status.",
+  "parameters": []
+}
