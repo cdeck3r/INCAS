@@ -1,0 +1,32 @@
+@startuml
+skinparam monochrome true
+skinparam componentStyle uml2
+
+boundary UI
+control "snapshot_xsecs_\nuntil_ktimes.sh" as scriptUI
+UI -> scriptUI : execute
+scriptUI -> at : ... -q s -t now
+
+at -> watch : ... -e -t -n x 
+
+loop every x seconds
+  control ktimes.sh
+  watch -> ktimes.sh : call
+  control snapshot.sh
+  ktimes.sh -> snapshot.sh : take snapshot
+  entity "ktimes_\nsnapshot.state" as state
+  ktimes.sh -> state : update iteration
+  state -> ktimes.sh : read iteration
+
+  alt iteration <= k
+    ktimes.sh -> watch : exitcode = 0
+  else iteration > k 
+    ktimes.sh -> state !! : delete
+    ktimes.sh -> watch : exitcode > 0
+    watch --> watch : exit
+  end
+end
+
+watch --> at : return
+at --> at : done
+@enduml

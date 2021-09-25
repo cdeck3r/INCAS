@@ -53,7 +53,7 @@ check_user || {
 # install dependencies
 sudo -s -- <<EOF
 apt-get update
-apt-get install -y python3-pip 
+apt-get install -y python3-pip at
 pip3 install pyyaml 
 pip3 install tornado
 EOF

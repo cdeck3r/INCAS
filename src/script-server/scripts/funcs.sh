@@ -31,7 +31,7 @@ hr() {
 # requires tap-functions.sh
 tool_check() {
     # check for required tools avail from shell
-    TOOLS=('yq' 'tr' 'wc' 'date' 'uniq')
+    TOOLS=('yq' 'tr' 'wc' 'date' 'uniq' 'watch' 'at' 'atq' 'atrm')
     for t in "${TOOLS[@]}"; do
         # check for installed program
         # Source: https://stackoverflow.com/a/677212
