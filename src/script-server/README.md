@@ -35,7 +35,7 @@ The script-server UI implememts snapshots in periodic intervals. It combines [`a
 
 The next figure displays the design. 
 
-![Design to run periodic snapshots]()
+![Design to run periodic snapshots](http://www.plantuml.com/plantuml/png/1S4n4a4n40RWgt00RmkTpgWq6WSmiTcH7Tuczl-3u_k-hOU-PhLD8mSE8bc-oyFPvdt2KdlGWelsLRIQFlSfvylfU9MrU0XI1Pe-k8Fbnr9Wxzkmz5vT4MMWTMBXZty0)
 
 We expect periodic snapshots to run for hours. So, the design decouples long-running jobs from script-server. Still, one can query the status and easily kill a periodic snapshot job using `atq` and `atrm` commands. 
 
