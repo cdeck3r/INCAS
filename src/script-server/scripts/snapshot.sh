@@ -84,5 +84,9 @@ is $? 0 "Snapshot taken"
 
 # Summary
 diag "${HR}"
-diag "${GREEN}[SUCCESS]${NC} - Now download the images."
+if ((_failed_tests == 0)); then
+    diag "${GREEN}[SUCCESS]${NC} - Now download the images."
+else
+    diag "${RED}[FAIL]${NC} - Problems found. Check output."
+fi
 diag "${HR}"
