@@ -3,11 +3,11 @@ skinparam monochrome true
 skinparam componentStyle uml2
 
 boundary UI
-control "snapshot_xsecs_\nuntil_ktimes.sh" as scriptUI
+control "snapshot_xsecs_\nrepeat_ktimes.sh" as scriptUI
 UI -> scriptUI : execute
 scriptUI -> at : check for running jobs:\n atq -q s ...
 return job list
-scriptUI -> at : submit job:\n at -q s -t now ...
+scriptUI -> at : submit job:\n at -q s now ...
 
 at -> watch : start:\n watch -e -t -n x ...
 
@@ -20,11 +20,11 @@ loop every x seconds
   ktimes.sh -> state : update iteration
   state -> ktimes.sh : read iteration
 
-  alt iteration <= k
+  alt iteration < k
     ktimes.sh -> watch : exitcode = 0
-  else iteration > k 
+  else iteration >= k 
     ktimes.sh -> state !! : delete
-    ktimes.sh -> watch : exitcode > 0
+    ktimes.sh -> watch : exitcode = 255
     watch --> watch : exit
   end
 end

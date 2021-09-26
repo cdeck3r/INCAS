@@ -1,0 +1,28 @@
+{
+  "name": "Periodic Snapshots",
+  "script_path": "snapshot_xsecs_repeat_ktimes.sh",
+  "working_directory": "scripts",
+  "description": "Take a snapshot from all cameras every x seconds. Repeat this action k times.",
+  "parameters": [
+    {
+      "name": "x seconds",
+      "required": true,
+      "type": "int",
+      "min": "10",
+      "description": "Take a snapshot every x seconds."
+    },  
+    {
+      "name": "k times",
+      "required": true,
+      "type": "int",
+      "min": "1", 
+      "description": "Repeating taking snapshots k times."
+    },  
+    {
+      "name": "name",
+      "required": true,
+      "type": "string",
+      "description": "Directory name (not path) to store all snapshots."
+    }
+  ]
+}
