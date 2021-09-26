@@ -2,7 +2,7 @@
 # shellcheck disable=SC1090
 
 #
-# Performs various checks and determines the system status.
+# Kill all periodic snapshots jobs
 #
 # Author: cdeck3r
 #
@@ -21,13 +21,13 @@ SCRIPT_DIR="$(
 cd "$SCRIPT_DIR" || exit
 # shellcheck disable=SC2034
 SCRIPT_NAME=$0
+SCRIPT_NAME_WO_EXT=$(basename "${SCRIPT_NAME%.*}")
 
 # Vars
 TAKEIMG_DIR="${SCRIPT_DIR}/../../takeimg"
 TAKE_SNAPSHOT="${TAKEIMG_DIR}/snapshot.sh"
-CALIBRATE_DIR="${SCRIPT_DIR}/../../calibrate"
-CALIBRATE="${CALIBRATE_DIR}/calibrate.sh"
-CONF="${SCRIPT_DIR}/../../config.yml"
+SNAPSHOT_WO_EXT=$(basename "${TAKE_SNAPSHOT%.*}")
+KTIMES_STATE="/tmp/ktimes_${SNAPSHOT_WO_EXT}.state"
 
 [ -f "${SCRIPT_DIR}/common_vars.conf" ] || {
     echo "Could find required config file: common_vars.conf"
@@ -69,83 +69,66 @@ SKIP_CHECK=$(
 precheck "${SKIP_CHECK}"
 
 diag "${HR}"
-diag "Script checks"
+diag "Prepare"
 diag "${HR}"
 
 okx [ -f "${TAKE_SNAPSHOT}" ]
 okx [ -x "${TAKE_SNAPSHOT}" ]
-okx [ -f "${CALIBRATE}" ]
-okx [ -x "${CALIBRATE}" ]
-
 
 diag " "
 
 diag "${HR}"
-diag "Check snapshot jobs"
+diag "Kill enqueued periodic snapshot jobs"
 diag "${HR}"
 
-QCHECK_CMD="atq -q s"
-QCHECK_CMD_RES=$(${QCHECK_CMD} | wc -l)
-is $? 0 "Check at queue for snapshot jobs"
-
-is "${QCHECK_CMD_RES}" 0 "Enqueued jobs: ${QCHECK_CMD_RES}"
-
-STATE_FILE="/tmp/ktimes_snapshot.state"
-if [ -f "${STATE_FILE}" ]; then
-    diag "State file found. There is a running or orphaned job: ${STATE_FILE}"
+JOB_QUEUE=$(atq -q s | wc -l)
+if [[ "${JOB_QUEUE}" -eq 0 ]]; then
+    pass "No queued jobs found."
 else
-    pass "No state file found."
+    diag "Found leftover jobs: ${JOB_QUEUE}"
+    atrm $(atq -q s | cut -f1) 2>/dev/null
+    is $? 0 "Deleting jobs."    
+    JOB_QUEUE=$(atq -q s | wc -l)
+    is "${JOB_QUEUE}" 0 "No snapshot jobs in queue."
 fi
 
 diag " "
 
 diag "${HR}"
-diag "Logfiles"
+diag "Kill running periodic snapshot jobs"
 diag "${HR}"
 
-LOG_DIR=$(yq e '.log_dir' "${CONF}")
-while IFS= read -r -d '' file
-do
-    [ -f "${file}" ]
-    is $? 0 "Logfile: ${file}"
-done < <(find "${LOG_DIR}" -type f -name "*.log" -print0)
+# test job is running
+RUNNING_JOB_NUMS=$(atq -q = | cut -f1)
+mapfile -t RUNNING_JOB_NUMS_ARRAY < <(echo "${RUNNING_JOB_NUMS}")
+if [[ -z "${RUNNING_JOB_NUMS_ARRAY[0]}" ]]; then 
+    pass "No running jobs found."
+else
+    diag "Number of currently running jobs: ${#RUNNING_JOB_NUMS_ARRAY[@]}"
+fi
+for jobnum in "${RUNNING_JOB_NUMS_ARRAY[@]}"; do
+    [ -z "${jobnum}" ] && { continue; }
+    at -c "${jobnum}" | tail -2 | xargs | grep "${TAKE_SNAPSHOT}" && {
+        okx atrm "${jobnum}"
+        okx pkill -f "${TAKE_SNAPSHOT}"
+    }
+done
 
 
 diag " "
 
 diag "${HR}"
-diag "Image Storage"
+diag "Cleanup state files"
 diag "${HR}"
 
-WWW_IMG_DIR=$(yq e '.www-images' "${CONF}")
-okx [ -d "${WWW_IMG_DIR}" ]
-
-SCAN_IMG_CMD="find ${WWW_IMG_DIR} -type f -name *.jpg"
-SCAN_IMG_CMD_RES=$(${SCAN_IMG_CMD} | wc -l)
-is $? 0 "Scan directory for images: ${WWW_IMG_DIR}"
-isnt "${SCAN_IMG_CMD_RES}" 0 "Found images: ${SCAN_IMG_CMD_RES}"
-
-diag " "
-
-# check file sizes
-# files less than 100 bytes indicate there was an error during snapshot
-while IFS= read -r -d '' file
-do
-    filesize=$(stat -c%s "$file")
-    [ ${filesize} -gt 100 ]
-    is $? 0 "Image: ${file}"
-done < <( find "${WWW_IMG_DIR}" -type f -name "*.jpg" -print0 )
-
-diag " "
-
-STORAGE_CMD_RES=$(du -sh "${WWW_IMG_DIR}")
-is $? 0 "Check storage: ${STORAGE_CMD_RES}"
+rm -rf "${KTIMES_STATE}"
+okx [ ! -f "${KTIMES_STATE}" ]
 
 
 # Summary
 diag "${HR}"
 if ((_failed_tests == 0)); then
-    diag "${GREEN}[SUCCESS]${NC} - Check done"
+    diag "${GREEN}[SUCCESS]${NC} - All done."
 else
     diag "${RED}[FAIL]${NC} - Problems found. Check output."
 fi

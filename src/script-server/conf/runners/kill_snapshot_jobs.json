@@ -1,0 +1,7 @@
+{
+  "name": "Kill periodic snapshots jobs",
+  "script_path": "kill_snapshot_jobs.sh",
+  "working_directory": "scripts",
+  "description": "Kill all periodic snapshots and cleanup state files.",
+  "parameters": []
+}
