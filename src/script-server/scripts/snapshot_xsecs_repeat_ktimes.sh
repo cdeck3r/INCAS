@@ -30,9 +30,10 @@ XSECS=${1:-}
 KTIMES=${2:-}
 IMG_DIRNAME=${3:-}
 KTIMES_SH="${SCRIPT_DIR}/ktimes.sh"
-KTIMES_STATE="/tmp/ktimes_${SCRIPT_NAME_WO_EXT}.state"
 TAKEIMG_DIR="${SCRIPT_DIR}/../../takeimg"
 TAKE_SNAPSHOT="${TAKEIMG_DIR}/snapshot.sh"
+SNAPSHOT_WO_EXT=$(basename "${TAKE_SNAPSHOT%.*}")
+KTIMES_STATE="/tmp/ktimes_${SNAPSHOT_WO_EXT}.state"
 
 [ -f "${SCRIPT_DIR}/common_vars.conf" ] || {
     echo "Could find required config file: common_vars.conf"
