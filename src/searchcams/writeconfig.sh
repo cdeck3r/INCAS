@@ -55,6 +55,15 @@ add_update_conf() {
     val="${val}" yq e -i "${keyval}" "${CONF}"
 }
 
+delete_camera_ip_entries() {
+    local has_camera_ips
+    
+    log_echo_file "INFO" "Delete all camera IPs from config: ${CONF}"
+    yq e -i 'del(.cameras.[] | select(.ip == "*") )' "${CONF}"
+    has_camera_ips=$(yq e 'has(.cameras.ip)' "${CONF}")
+    log_echo_file "INFO" "Camera IPs in config: ${has_camera_ips}"
+}
+
 #####################################################
 # Main program
 #####################################################
@@ -68,6 +77,8 @@ log_echo_file "INFO" "Read logfile: ${IP_LOG}"
 mapfile -t camera_ips < <(sort "${IP_LOG}" | uniq)
 num_ip="${#camera_ips[@]}"
 log_echo_file "INFO" "Found number of IP addresses: ${num_ip}"
+
+((num_ip > 0)) && { delete_camera_ip_entries; }
 
 for ((i = 0; i < num_ip; i++)); do
     ip=$(echo "${camera_ips[$i]}" | cut -d':' -f2 | xargs)
