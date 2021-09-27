@@ -33,6 +33,6 @@ In a practical setting, one may want to run `searchcams.sh` as a cronjob and red
 
 Finally, [writeconfig.sh](writeconfig.sh) adds the discovered cameras to the config file in the INCAS root, e.g. `/home/pi/incas`. 
 
-Usage: `./writeconfig.sh`
+Usage: `./writeconfig.sh [path to logfile]`
 
-Just call the script. It takes the result file from `searchcams.sh` or `discovercams.sh` as input. Config details are specified in [docs/README.md](../../docs/README.md#config-file-dependencies-and-specification)
+Just call the script. It takes the result file from `searchcams.sh` or `discovercams.sh` as input. The default value is: `<incas root>/log/ipcameras.log` Config details are specified in [docs/README.md](../../docs/README.md#config-file-dependencies-and-specification)
