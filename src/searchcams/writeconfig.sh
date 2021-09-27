@@ -31,7 +31,7 @@ source "${SCRIPT_DIR}/../include/funcs.sh"
 CONF="${SCRIPT_DIR}/../config.yml"
 LOG_DIR=$(yq e '.log_dir' "${CONF}")
 LOG_FILE="${LOG_DIR}/${SCRIPT_NAME_WO_EXT}.log"
-IP_LOG="${LOG_DIR}/ipcameras.log"
+IP_LOG=${1:-"${LOG_DIR}/ipcameras.log"}
 
 #####################################################
 # Include Helper functions

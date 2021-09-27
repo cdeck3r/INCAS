@@ -32,8 +32,6 @@ CONF="${SCRIPT_DIR}/../config.yml"
 LOG_DIR=$(yq e '.log_dir' "${CONF}")
 LOG_FILE="${LOG_DIR}/${SCRIPT_NAME_WO_EXT}.log"
 
-TMPFILE=$(mktemp)
-
 #####################################################
 # Include Helper functions
 #####################################################
@@ -54,16 +52,19 @@ discover_web_site_services() {
 # Main program
 #####################################################
 
-discover_web_site_services
-log_echo_file "INFO" "Discovered 'Web Site' services count: $(wc -l "${TMPFILE}")"
+[[ -f "${SCRIPT_DIR}/searchcams.sh" ]] || {
+    log_echo_file "ERROR" "searchcams.sh script not found. Abort"
+    echo "ERROR: searchcams.sh script not found. Abort"
+    exit 1
+}
+[[ -x "${SCRIPT_DIR}/searchcams.sh" ]] || {
+    log_echo_file "ERROR" "searchcams.sh script not executable. Abort"
+    echo "ERROR: searchcams.sh script not executable. Abort"
+    exit 1
+}
 
 # resolve all found hosts and log them
-log_echo_file "INFO" "Run 'searchcams.sh' to probe for IP camera"
-while IFS="" read -r ip || [ -n "$ip" ]; do
-    "${SCRIPT_DIR}/searchcams.sh" "${ip}" "255.255.255.255"
-done <"${TMPFILE}"
-
-# cleanup
-rm -rf "${TMPFILE}"
+log_echo_file "INFO" "Run avahi and 'searchcams.sh' to probe for IP camera"
+avahi-browse -atpr | grep "Web Site" | cut -d';' -f8 | sort | uniq | xargs -I {} "${SCRIPT_DIR}/searchcams.sh" {} "255.255.255.255"
 
 exit 0
