@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e -u
+set -u
 
 #
 # Take snapshot from IP cameras
@@ -111,10 +111,12 @@ for ((i = 0; i < "${#camera_ips[@]}"; i++)); do
     IMG_NAME="Cam${n}_$(date '+%Y%m%d_%H%M%S')"
     # issue HTTP request to take snapshot
     log_echo_file "INFO" "Take a snapshot from Cam${n}: ${ip}"
-    curl -s --user "${USER}:${PASS}" --digest "http://${ip}/cgi-bin/snapshot.cgi" -o "${IMG_DIR}/${IMG_NAME}.jpg"
+    curl --connect-timeout 10 -s --user "${USER}:${PASS}" --digest "http://${ip}/cgi-bin/snapshot.cgi" -o "${IMG_DIR}/${IMG_NAME}.jpg"
     CURL_RET=$?
     # error reporting
     if [[ "${CURL_RET}" -ne 0 ]] || [[ ! -f "${IMG_DIR}/${IMG_NAME}.jpg" ]]; then
         log_echo_file "ERROR" "Error when taking snapshot from camera IP address and save it to file: ${ip},  ${IMG_DIR}/${IMG_NAME}.jpg"
     fi
 done
+
+exit 0
